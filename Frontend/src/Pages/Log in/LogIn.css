@@ -1,0 +1,122 @@
+:root {
+  --bg: #071028;
+  --muted: #94a3b8;
+  --card: #0f172a;
+  --accent1: #0ea5e9;
+  --accent2: #7c3aed;
+}
+
+.login-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+.login-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 480px;
+  width: 100%;
+}
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.login-logo {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.5rem;
+}
+.login-header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+.login-header .muted {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
+}
+
+.login-form {
+  margin-top: 0.5rem;
+}
+.form-group {
+  margin-bottom: 0.9rem;
+}
+.form-group label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+.form-group input {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: transparent;
+  color: #e6eef8;
+}
+.password-row {
+  display: flex;
+  gap: 0.5rem;
+}
+.password-row .show-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  padding: 0 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.field-error {
+  color: #ffb4b4;
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+.remember-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.remember input {
+  margin-right: 0.5rem;
+}
+.forgot {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.btn.full {
+  width: 100%;
+}
+.status {
+  margin-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.signup {
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--muted);
+}
+.signup .link-underline {
+  color: var(--accent1);
+  text-decoration: underline;
+}
+
+@media (max-width: 520px) {
+  .login-card {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+}

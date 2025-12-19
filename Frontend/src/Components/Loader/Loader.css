@@ -1,0 +1,18 @@
+:root{
+  --ap-accent: #0ea5e9;
+  --ap-accent-2: #7c3aed;
+}
+
+.apnisec-loader{display:flex;align-items:center;justify-content:center}
+.apnisec-loader.fullscreen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:rgba(4,6,12,0.46);backdrop-filter:blur(6px)}
+
+.loader-inner{display:flex;flex-direction:column;align-items:center;gap:0.6rem}
+.ring{width:var(--loader-size,48px);height:var(--loader-size,48px);border-radius:50%;box-sizing:border-box;border:calc(var(--loader-size,48px) / 12) solid rgba(255,255,255,0.12);border-top-color:var(--ap-accent);animation:spin 0.9s linear infinite}
+.loader-text{color:#e6eef8;font-weight:600;font-size:clamp(12px,1.2vw,14px)}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media (max-width:480px){
+  .ring{width:clamp(28px,12vw,48px);height:clamp(28px,12vw,48px)}
+}
+/* create a fallback gradient via background image if SVG gradient id isn't available */
