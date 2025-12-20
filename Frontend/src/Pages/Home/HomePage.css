@@ -8,6 +8,12 @@
   --max-width: 1100px;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px; /* adjust to match sticky nav height */
+  -webkit-overflow-scrolling: touch;
+}
+
 * {
   box-sizing: border-box;
 }

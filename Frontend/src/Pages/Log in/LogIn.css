@@ -20,6 +20,11 @@
   border-radius: 12px;
   max-width: 480px;
   width: 100%;
+  /* entrance animation: slide up and fade */
+  transform: translateY(18px);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: slideUp 520ms cubic-bezier(.22,.9,.2,1) forwards;
 }
 .login-header {
   display: flex;
@@ -54,6 +59,7 @@
   color: var(--muted);
   font-size: 0.95rem;
   margin-bottom: 0.35rem;
+  text-align: left;
 }
 .form-group input {
   width: 100%;
@@ -118,5 +124,16 @@
   .login-card {
     padding: 1rem;
     border-radius: 10px;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
