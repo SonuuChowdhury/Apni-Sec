@@ -38,6 +38,7 @@ body {
   justify-content: space-between;
   padding: 0.6rem 0;
 }
+.main-links{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap}
 .logo {
   display: flex;
   align-items: center;
@@ -98,9 +99,10 @@ body {
   align-items: center;
 }
 .hero-copy h1 {
-  font-size: 2rem;
+  font-size: clamp(1.4rem, 4vw, 2.25rem);
   margin: 0 0 0.75rem;
   color: #fff;
+  line-height: 1.05;
 }
 .lead {
   color: var(--muted);
@@ -126,6 +128,9 @@ body {
   max-width: 380px;
   margin: 0 auto;
 }
+
+/* make sure svg scales nicely */
+.hero-art svg{width:100%;height:auto;display:block}
 
 .services {
   padding: 2.5rem 0;
@@ -216,6 +221,8 @@ body {
   .hero-art {
     order: -1;
   }
+  .nav-inner{flex-direction:row}
+  .main-links{justify-content:center}
   .cards {
     grid-template-columns: 1fr;
   }
@@ -226,11 +233,27 @@ body {
     flex-direction: column;
     align-items: flex-start;
   }
-  .main-links {
-    display: flex;
-    flex-direction: row;
-    gap: 0.6rem;
-  }
+
+}
+
+@media (max-width: 600px){
+  .container{padding:0.75rem}
+  .nav-inner{flex-direction:column;align-items:center;gap:0.5rem}
+  .logo-img{width:30px;height:30px}
+  .main-links{width:100%;justify-content:center}
+  .main-links a{font-size:0.95rem}
+  .hero{padding:2rem 0}
+  .hero-copy .lead{font-size:0.95rem}
+  .trust-list{flex-direction:column;gap:0.25rem}
+  .hero-art .shield{max-width:260px}
+  .cards{grid-template-columns:1fr}
+  .card{padding:1rem}
+  .footer-inner{align-items:center}
+}
+
+@media (max-width:420px){
+  .hero-copy h1{font-size:1.4rem}
+  .btn{padding:0.45rem 0.7rem;font-size:0.95rem}
 }
 
 /* accessibility helpers */
