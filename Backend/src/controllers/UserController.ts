@@ -10,7 +10,7 @@ export class UserController {
     this.userService = userService;
   }
 
-  // Register a new user
+// Maintaining User informations and authentication
   async register(req: Request, res: Response) {
     try {
       const { name, email, password, age, gender } = req.body;
@@ -51,7 +51,6 @@ export class UserController {
     }
   }
 
-  // Login user
   async login(req: Request, res: Response) {
     try {
       const { email, password } = req.body;
@@ -62,7 +61,6 @@ export class UserController {
     }
   }
 
-  // Verify user / Get user data by JWT token
   async verifyUser(req: Request, res: Response) {
     try {
       const token = req.headers.authorization?.split(' ')[1];
@@ -90,6 +88,116 @@ export class UserController {
       if (error.name === 'TokenExpiredError') {
         return res.status(401).json({ error: 'Token expired' });
       }
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  async updateUser(req: Request, res: Response) {
+    try {
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token) {
+        return res.status(401).json({ error: 'No token provided' });
+      }
+      const jwtSecret = process.env.JWT_SECRET;
+      if (!jwtSecret) {
+        return res.status(500).json({
+          error: 'JWT_SECRET not configured'
+        });
+      }
+      const decoded = jwt.verify(token, jwtSecret) as any;
+      const updateData = req.body;
+      const updatedUser = await this.userService.updateUserById(decoded.id, updateData);
+      if (!updatedUser) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      const user = updatedUser.toObject();
+      delete user.password;
+
+      return res.status(200).json({
+        message: "User updated",
+        user
+    });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+
+// Maintaining User Issues
+  async getUserIssues(req: Request, res: Response) {
+    try {
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token) {
+        return res.status(401).json({ error: 'No token provided' });
+      }
+
+      const jwtSecret = process.env.JWT_SECRET;
+      if (!jwtSecret) {
+        return res.status(500).json({ error: 'JWT_SECRET not configured' });
+      }
+
+      const decoded = jwt.verify(token, jwtSecret) as any;
+      const userIssues = await this.userService.getIssuesByUserId(decoded.id);
+
+      return res.status(200).json({ userIssues });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  async createUserIssue(req: Request, res: Response) {
+    try {
+      const { issueTitle, issueDescription, issueType } = req.body;
+      if(!issueTitle || !issueDescription || !issueType){
+        return res.status(400).json({ error: 'Missing required fields for issue creation' });
+      }
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token) {
+        return res.status(401).json({ error: 'No token provided' });
+      }
+
+      const jwtSecret = process.env.JWT_SECRET;
+      if (!jwtSecret) {
+        return res.status(500).json({ error: 'JWT_SECRET not configured' });
+      }
+
+      const decoded = jwt.verify(token, jwtSecret) as any;
+      
+      const newIssue = await this.userService.createIssue({
+        issueUserId: decoded.id,
+        issueTitle,
+        issueDescription,
+        issueType,
+      });
+      return res.status(201).json({ message: 'Issue created', issue: newIssue });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  async updateUserIssue(req: Request, res: Response) {
+    try {
+      const { issueId, updateData } = req.body;
+      if(!issueId || !updateData){
+        return res.status(400).json({ error: 'Missing required fields for issue update' });
+      }
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token) {
+        return res.status(401).json({ error: 'No token provided' });
+      }
+
+      const jwtSecret = process.env.JWT_SECRET;
+      if (!jwtSecret) {
+        return res.status(500).json({ error: 'JWT_SECRET not configured' });
+      }
+
+      const decoded = jwt.verify(token, jwtSecret) as any;
+      if (!decoded.id) {
+        return res.status(401).json({ error: 'Invalid token' });
+      }
+      const updatedIssue = await this.userService.updateIssue(issueId, updateData);
+      return res.status(200).json({ message: 'Issue updated', issue: updatedIssue });
+    } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
   }

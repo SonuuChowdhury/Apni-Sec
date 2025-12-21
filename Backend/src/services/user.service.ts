@@ -1,7 +1,7 @@
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { UserRepository } from "../repositories/UserRepository";
-import { IUser } from "../models/user.interface";
+import { IUser, UserIssues } from "../models/user.interface";
 
 const DUMMY_HASH = bcrypt.hashSync("__DUMMY__", 10);
 
@@ -9,6 +9,7 @@ export class UserService {
   private jwtSecret: string;
   private userRepo: UserRepository;
 
+  // Services for user authentication and management
   constructor(userRepo: UserRepository) {
     this.userRepo = userRepo;
     // Do not read JWT_SECRET here; load it lazily to avoid import-time errors
@@ -68,5 +69,36 @@ export class UserService {
     if (userObj.password) delete userObj.password;
 
     return userObj;
+  }
+
+  async updateUserById(id: string, updateData: Partial<IUser>) {
+    const user = await this.userRepo.findById(id);
+    if (!user) return null;
+
+    if (updateData.password) {
+      updateData.password = await bcrypt.hash(updateData.password, 10);
+    }
+    const updatedUser = await this.userRepo.update(id, updateData);
+    return updatedUser;
+  }
+
+
+// Services for issues
+  async createIssue(issueData: Partial<UserIssues>) {
+    if (!issueData.issueUserId || !issueData.issueTitle || !issueData.issueDescription || !issueData.issueType) {
+      throw new Error("Required fields missing for issue creation");
+    }
+    const issue = await this.userRepo.createIssue(issueData);
+    return issue;
+  }
+
+  async getIssuesByUserId(userId: string) {
+    const issues = await this.userRepo.findIssuesByUserId(userId);
+    return issues;
+  }
+
+  async updateIssue(issueId: string, updateData: Partial<UserIssues>) {
+    const updatedIssue = await this.userRepo.updateIssue(issueId, updateData);
+    return updatedIssue;
   }
 }
