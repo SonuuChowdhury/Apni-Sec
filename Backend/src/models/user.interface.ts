@@ -5,3 +5,7 @@ export interface IUser{
     age:number;
     gender:string;
 }
+
+// export interface UserIssues{
+//     userId
+// }
