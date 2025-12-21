@@ -1,8 +1,8 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { AppServer } from "./src/app/AppServer";
-import { Database } from "./src/config/db.config";
+import { AppServer } from "./app/AppServer";
+import { Database } from "./config/db.config";
 
 const startApp = async () => {
   try {
