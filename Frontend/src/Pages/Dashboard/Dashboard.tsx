@@ -117,16 +117,18 @@ export default function Dashboard() {
     setLoading(true);
     try {
       const token = getToken();
-      const res = await fetch('https://apni-sec.onrender.com/api/user/issues/update', {
+      const res = await fetch('https://apni-sec.onrender.com/api/users/issues/update', {
         method: 'PUT',
         headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
         body: JSON.stringify({ issueId: issueEditing, updateData: issueEditForm }),
       });
+      console.log(res)
       if (!res.ok) throw new Error('Update failed');
       const data = await res.json();
       setIssues(iss => iss.map(item => item._id === issueEditing ? data.issue : item));
       setAlert('Issue updated successfully');
-    } catch (e) {
+    } catch (error) {
+      console.error(error);
       setAlert('Error updating issue.');
     } finally {
       setLoading(false);
