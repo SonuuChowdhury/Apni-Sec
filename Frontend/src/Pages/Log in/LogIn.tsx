@@ -87,7 +87,6 @@ export default function LogIn(){
                             <label className="remember">
                                 <input type="checkbox" checked={remember} onChange={e=>setRemember(e.target.checked)} /> Remember me
                             </label>
-                            <Link to="/" className="forgot">Forgot password?</Link>
                         </div>
 
                         <div className="form-row">
