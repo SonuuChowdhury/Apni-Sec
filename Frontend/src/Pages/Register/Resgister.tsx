@@ -1,22 +1,28 @@
 import './Register.css'
 import { useState } from 'react'
+import axios, { AxiosError } from "axios"
 import { Link } from 'react-router-dom'
+import Loader from '../../Components/Loader/Loader'
+import { useNavigate } from 'react-router-dom'
 
 export default function Register(){
+    const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [age, setAge] = useState<number | ''>('')
     const [gender, setGender] = useState('')
-    const [errors, setErrors] = useState<{name?:string; email?:string; age?:string; gender?:string}>({})
-    const [showOTP, setShowOTP] = useState(false)
-    const [otp, setOtp] = useState('')
+    const [password, setPassword] = useState('')
+    const [errors, setErrors] = useState<{name?:string; email?:string; password?:string; age?:string; gender?:string}>({})
     const [status, setStatus] = useState<string | null>(null)
 
-    const validate = () => {
-        const e: {name?:string; email?:string; age?:string; gender?:string} = {}
+    // eslint-disable-next-line
+const validate = () => {
+        const e: {name?:string; email?:string; password?:string; age?:string; gender?:string} = {}
         const emailRe = /^\S+@\S+\.\S+$/
         if(!name.trim()) e.name = 'Please enter your full name'
         if(!emailRe.test(email)) e.email = 'Please enter a valid email address'
+        if(!password || password.length < 4) e.password = 'Password must be at least 4 characters'
         if(age === '' || Number(age) <= 0) e.age = 'Please enter a valid age'
         if(!gender) e.gender = 'Please select a gender'
         setErrors(e)
@@ -24,26 +30,35 @@ export default function Register(){
     }
 
     // Called when user clicks Register — keep empty for backend wiring later
-    const registerUser = (ev?: React.FormEvent) => {
+    const registerUser = async (ev?: React.FormEvent) => {
         if(ev) ev.preventDefault()
-        setStatus(null)
-        if(!validate()) return
-        // Stub: developer will implement registration logic and OTP send
-        console.log('Register payload:', { name, email, age, gender })
-        // move to OTP state (UI-only for now)
-        setShowOTP(true)
+            if(!validate()) return
+            try{
+                setIsLoading(true)
+                const response = await axios.post('https://apni-sec.onrender.com/api/users/register', { name, email,password, age, gender })
+                if(response.status === 201){
+                    const token = response.data.token
+                    localStorage.setItem('token_apnisec', token)
+                    navigate(`/dashboard/${token}`)
+                }else{
+                    alert(response.data.error)
+                }
+            }catch(error){
+                if(error instanceof AxiosError){
+                    alert(error.response?.data.error)
+                }else{
+                    alert('An error occurred. Please try again.')
+                }
+            }finally{
+                setIsLoading(false)
+            }
+
     }
 
-    // Called when user clicks Finish up — keep empty for backend wiring later
-    const finishRegistration = (ev?: React.FormEvent) => {
-        if(ev) ev.preventDefault()
-        // Stub: developer will implement OTP verification and finalization
-        console.log('Finish registration with OTP:', otp)
-        setStatus('OTP submitted (stub). Implement verification logic.')
-    }
 
     return (
         <div className="register-page">
+            {isLoading && <Loader text="Loading..." />}
             <div className="container">
                 <div className="register-card">
                     <header className="register-header">
@@ -52,7 +67,6 @@ export default function Register(){
                         <p className="muted">Register to access your security dashboard</p>
                     </header>
 
-                    {!showOTP ? (
                     <form className="register-form" onSubmit={registerUser} noValidate>
                         <div className="form-group">
                             <label htmlFor="name">Full name</label>
@@ -64,6 +78,11 @@ export default function Register(){
                             <label htmlFor="email">Email</label>
                             <input id="email" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@company.com" aria-invalid={!!errors.email} required />
                             {errors.email && <div className="field-error" role="alert">{errors.email}</div>}
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input id="password" type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Enter password" aria-invalid={!!errors.password} required minLength={6} />
+                            {errors.password && <div className="field-error" role="alert">{errors.password}</div>}
                         </div>
 
                         <div className="form-row two-cols">
@@ -90,21 +109,6 @@ export default function Register(){
                         </div>
                         {status && <div className="status" role="status">{status}</div>}
                     </form>
-                    ) : (
-                    <form className="register-form" onSubmit={finishRegistration} noValidate>
-                        <div className="form-group">
-                            <label htmlFor="otp">Enter OTP</label>
-                            <input id="otp" type="text" value={otp} onChange={e=>setOtp(e.target.value)} placeholder="6-digit code" maxLength={8} required />
-                        </div>
-                        <div className="form-row">
-                            <button className="btn btn-primary full" type="submit">Finish up</button>
-                        </div>
-                        <div className="form-row">
-                            <button type="button" className="btn full" onClick={()=>setShowOTP(false)}>Back</button>
-                        </div>
-                        {status && <div className="status" role="status">{status}</div>}
-                    </form>
-                    )}
 
                     <div className="signup">
                         <p>Already registered? <Link to="/login" className="link-underline">Log in</Link></p>

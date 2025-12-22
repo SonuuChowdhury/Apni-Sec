@@ -7,7 +7,7 @@ type LoaderProps = {
 	fullscreen?: boolean
 }
 
-export default function Loader({ size = 48, text, fullscreen = false }: LoaderProps){
+export default function Loader({ size = 48, text, fullscreen = true }: LoaderProps){
 	const sizePx = Math.max(20, Math.min(120, size))
 	const style: React.CSSProperties = { ['--loader-size' as any]: `${sizePx}px` }
 	return (

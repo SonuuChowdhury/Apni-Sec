@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import HomePage from './Pages/Home/HomPage';
 import LogIn from './Pages/Log in/LogIn';
 import Register from './Pages/Register/Resgister';
+import Dashboard from './Pages/Dashboard/Dashboard';
 import './App.css'
 
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/login" element={<LogIn/>}></Route>
           <Route path="/register" element={<Register/>}></Route>
           <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/dashboard/:user" element={<Dashboard/>}></Route>
         </Routes>
       </Router>
     </>

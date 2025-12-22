@@ -1,7 +1,23 @@
 import "./HomePage.css"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 export default function HomePage(){
+    const [hasToken, setHasToken] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token_apnisec_remember');
+        setHasToken(!!token);
+    }, []);
+
+    const handleDashboard = () => {
+        const token = localStorage.getItem('token_apnisec_remember');
+        if (token) {
+            navigate(`/dashboard/${token}`);
+        }
+    };
+
     return (
         <div className="apnisec-landing">
             <header className="apnisec-nav" role="banner">
@@ -15,7 +31,11 @@ export default function HomePage(){
                         <a href="#services">Services</a>
                         <a href="#why">Why ApniSec</a>
                         <a href="#contact">Contact</a>
-                        <Link to="/login" className="btn btn-primary">Login/ Register</Link>
+                        {hasToken ? (
+    <button className="btn btn-primary" onClick={handleDashboard}>Go to Dashboard</button>
+) : (
+    <Link to="/login" className="btn btn-primary">Login/ Register</Link>
+)}
                     </nav>
                 </div>
             </header>
