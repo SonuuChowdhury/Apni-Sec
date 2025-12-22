@@ -14,7 +14,6 @@ export default function Register(){
     const [gender, setGender] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState<{name?:string; email?:string; password?:string; age?:string; gender?:string}>({})
-    const [status, setStatus] = useState<string | null>(null)
 
     // eslint-disable-next-line
 const validate = () => {
