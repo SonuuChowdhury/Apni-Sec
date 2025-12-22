@@ -2,6 +2,7 @@ import './Dashboard.css';
 import { useEffect, useState } from 'react';
 import Loader from '../../Components/Loader/Loader';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 interface UserProfile {
   name: string;
@@ -57,7 +58,11 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   // Helper: get token
-  const getToken = () => localStorage.getItem('token_apnisec_remember');
+  const getParamToken = () => {
+    localStorage.getItem('token_apnisec_remember');
+  };
+  const UserToken =  useParams() || getParamToken;
+  console.log(UserToken.user)
 
   // Logout: wipe token and redirect
   const logout = () => {
@@ -65,27 +70,44 @@ export default function Dashboard() {
     navigate('/login');
   };
 
-  // Fetch profile on load
   useEffect(() => {
-    const token = getToken();
-    if (!token) { logout(); return; }
+  const token = UserToken.user
+
+  // If no token → wait 5 sec → logout
+  if (!token) {
+    const t = setTimeout(() => logout(), 5000);
+    return () => clearTimeout(t);
+  }
+
+  const controller = new AbortController();
+
+  // Wait 5 sec before verifying token
+  const timer = setTimeout(() => {
     fetch('https://apni-sec.onrender.com/api/users/verify', {
       headers: { Authorization: 'Bearer ' + token },
+      signal: controller.signal,
     })
       .then(async res => {
         if (!res.ok) throw new Error('Auth failed');
         const data = await res.json();
         setUser(data.user);
-        setLoading(false);
       })
       .catch(() => {
-        logout();
-      });
-  }, []);
+        setTimeout(logout, 5000); // 5 sec buffer before logout
+      })
+      .finally(() => setLoading(false));
+  }, 5000); // ⏱️ 5 seconds buffer
+
+  return () => {
+    clearTimeout(timer);
+    controller.abort();
+  };
+}, [UserToken]);
+
 
   // Fetch issues
   useEffect(() => {
-    const token = getToken();
+    const token = UserToken.user;
     if (!token) return;
     setIssuesLoading(true);
     fetch('https://apni-sec.onrender.com/api/users/issues', {
@@ -116,7 +138,7 @@ export default function Dashboard() {
     ev.preventDefault();
     setLoading(true);
     try {
-      const token = getToken();
+      const token = UserToken.user;
       const res = await fetch('https://apni-sec.onrender.com/api/users/issues/update', {
         method: 'PUT',
         headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
@@ -142,7 +164,7 @@ export default function Dashboard() {
     ev.preventDefault();
     setLoading(true);
     try {
-      const token = getToken();
+      const token = UserToken.user;
       const res = await fetch('https://apni-sec.onrender.com/api/users/issues/new', {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
