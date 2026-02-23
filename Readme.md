@@ -39,6 +39,21 @@ Try ApniSec here 👇
 
 ---
 
+## 🧪 Simulation — Application Workflow
+
+| Feature | Preview |
+|--------|---------|
+| 🏠 Home Page | ![](https://drive.google.com/file/d/1EmS3GRzZTffjKKGd9TXTv9Mvu-rk7M5y/view?usp=sharing) |
+| 📝 Register Page | ![](PASTE_IMAGE_LINK_HERE) |
+| 🔐 Login Page | ![](PASTE_IMAGE_LINK_HERE) |
+| 📊 Dashboard | ![](PASTE_IMAGE_LINK_HERE) |
+| ➕ Add Issue | ![](PASTE_IMAGE_LINK_HERE) |
+| 🗂️ Issue Types | ![](PASTE_IMAGE_LINK_HERE) |
+| ✅ Added Issue | ![](PASTE_IMAGE_LINK_HERE) |
+| ✏️ Edit Issue | ![](PASTE_IMAGE_LINK_HERE) |
+| 🔄 Status States | ![](PASTE_IMAGE_LINK_HERE) |
+
+
 ## 🛠️ Run Locally
 
 ### 📥 Clone the Repository
