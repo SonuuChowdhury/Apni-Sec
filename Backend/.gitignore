@@ -3,4 +3,5 @@
 /dist
 /src/scripts
 index.ts
+.env.example
 
