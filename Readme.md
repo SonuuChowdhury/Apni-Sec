@@ -43,15 +43,15 @@ Try ApniSec here 👇
 
 | Feature | Preview |
 |--------|---------|
-| 🏠 Home Page | ![](https://drive.google.com/file/d/1EmS3GRzZTffjKKGd9TXTv9Mvu-rk7M5y/view?usp=sharing) |
-| 📝 Register Page | ![](PASTE_IMAGE_LINK_HERE) |
-| 🔐 Login Page | ![](PASTE_IMAGE_LINK_HERE) |
-| 📊 Dashboard | ![](PASTE_IMAGE_LINK_HERE) |
-| ➕ Add Issue | ![](PASTE_IMAGE_LINK_HERE) |
-| 🗂️ Issue Types | ![](PASTE_IMAGE_LINK_HERE) |
-| ✅ Added Issue | ![](PASTE_IMAGE_LINK_HERE) |
-| ✏️ Edit Issue | ![](PASTE_IMAGE_LINK_HERE) |
-| 🔄 Status States | ![](PASTE_IMAGE_LINK_HERE) |
+| 🏠 Home Page | ![](https://drive.google.com/uc?export=view&id=1EmS3GRzZTffjKKGd9TXTv9Mvu-rk7M5y) |
+| 🔐 Login Page | ![](https://drive.google.com/uc?export=view&id=112zv9waMSWD8Zo6emXDQf_dQc1cjAXki) |
+| 📝 Register Page | ![](https://drive.google.com/uc?export=view&id=1GJgPqTPkGGbuszR4iUIVcqbXnNHHkkxp) |
+| 📊 Dashboard | ![](https://drive.google.com/uc?export=view&id=1IAyE_UQAPd_Jma20EsE6l2FJCZrJkLan) |
+| ➕ Adding Issue | ![](https://drive.google.com/uc?export=view&id=1zEvfhpyio45J6jDXHappNsj2SKCdksBM) |
+| 🗂️ Issue Types | ![](https://drive.google.com/uc?export=view&id=1bQwKydeVvMvLQF6UjpCYncnUr0zxG4XH) |
+| ✅ Added Issue (Result) | ![](https://drive.google.com/uc?export=view&id=1dw1ublc9b-HQMoMMPDuUy77XjBUlLvDY) |
+| ✏️ Editing Issue | ![](https://drive.google.com/uc?export=view&id=1bQwKydeVvMvLQF6UjpCYncnUr0zxG4XH) |
+| 🔄 Editing States (Open / Working / Closed) | ![](https://drive.google.com/uc?export=view&id=1bQwKydeVvMvLQF6UjpCYncnUr0zxG4XH) |
 
 
 ## 🛠️ Run Locally
